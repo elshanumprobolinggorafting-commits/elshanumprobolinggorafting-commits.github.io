@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Admin Login | Probolinggo Rafting</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7f8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      color: #17323a;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 460px;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 36px;
+      box-shadow: 0 15px 45px rgba(0,0,0,.10);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .logo strong {
+      display: block;
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .logo span {
+      display: block;
+      margin-top: 5px;
+      font-size: 13px;
+      color: #718087;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      text-align: center;
+      font-size: 28px;
+    }
+
+    .intro {
+      text-align: center;
+      color: #66777d;
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    label {
+      display: block;
+      margin: 16px 0 7px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid #d7e0e3;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    input:focus {
+      border-color: #168c91;
+      box-shadow: 0 0 0 3px rgba(22,140,145,.10);
+    }
+
+    button {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+      padding: 15px;
+      margin-top: 24px;
+      background: #168c91;
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: .92;
+    }
+
+    button:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .forgot {
+      display: block;
+      text-align: center;
+      margin-top: 18px;
+      color: #168c91;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 13px 15px;
+      border-radius: 10px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .message.error {
+      display: block;
+      background: #fff0f0;
+      color: #a32929;
+    }
+
+    .message.success {
+      display: block;
+      background: #edf9f1;
+      color: #20733b;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 22px;
+      color: #168c91;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div class="logo">
+      <strong>PROBOLINGGO RAFTING</strong>
+      <span>Admin Area</span>
+    </div>
+
+    <h1>Login Admin</h1>
+
+    <p class="intro">
+      Masuk untuk mengelola Program Agent & Mitra.
+    </p>
+
+    <form id="loginForm">
+
+      <label for="email">Email Admin</label>
+      <input
+        type="email"
+        id="email"
+        placeholder="Masukkan email admin"
+        autocomplete="email"
+        required
+      >
+
+      <label for="password">Password</label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Masukkan password"
+        autocomplete="current-password"
+        required
+      >
+
+      <button type="submit" id="loginBtn">
+        Masuk ke Admin
+      </button>
+
+    </form>
+
+    <a class="forgot" id="forgotPassword">
+      Lupa password?
+    </a>
+
+    <div id="message" class="message"></div>
+
+    <a class="back" href="index.html">
+      ← Kembali ke Website
+    </a>
+
+  </div>
+
+  <script>
+    const SUPABASE_URL =
+      "https://ecyfvwzoazvhwkpevriy.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "TEMPEL_PUBLISHABLE_KEY_DARI_AGENT_MITRA_DI_SINI";
+
+    const { createClient } = supabase;
+
+    const db = createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY
+    );
+
+    const loginForm = document.getElementById("loginForm");
+    const loginBtn = document.getElementById("loginBtn");
+    const forgotPassword = document.getElementById("forgotPassword");
+    const message = document.getElementById("message");
+
+    function showMessage(text, type) {
+      message.textContent = text;
+      message.className = "message " + type;
+    }
+
+    loginForm.addEventListener("submit", async function(e) {
+
+      e.preventDefault();
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      const password =
+        document.getElementById("password").value;
+
+      loginBtn.disabled = true;
+      loginBtn.textContent = "Memproses...";
+
+      const { data, error } =
+        await db.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (error) {
+
+        showMessage(
+          "Login gagal: " + error.message,
+          "error"
+        );
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = "Masuk ke Admin";
+
+        return;
+      }
+
+      if (data.session) {
+
+        showMessage(
+          "Login berhasil. Menyiapkan Admin...",
+          "success"
+        );
+
+        /*
+          Halaman admin akan kita buat
+          setelah sistem login berhasil.
+        */
+        setTimeout(function() {
+          window.location.href = "admin.html";
+        }, 800);
+
+      }
+
+    });
+
+    forgotPassword.addEventListener("click", async function() {
+
+      const email =
+        document.getElementById("email").value.trim();
+
+      if (!email) {
+
+        showMessage(
+          "Masukkan email Admin terlebih dahulu.",
+          "error"
+        );
+
+        document.getElementById("email").focus();
+
+        return;
+      }
+
+      forgotPassword.textContent =
+        "Mengirim email reset...";
+
+      const redirectTo =
+        window.location.origin +
+        "/reset-password.html";
+
+      const { error } =
+        await db.auth.resetPasswordForEmail(
+          email,
+          {
+            redirectTo: redirectTo
+          }
+        );
+
+      if (error) {
+
+        showMessage(
+          "Gagal mengirim email reset: " +
+          error.message,
+          "error"
+        );
+
+        forgotPassword.textContent =
+          "Lupa password?";
+
+        return;
+      }
+
+      showMessage(
+        "Email untuk mengatur ulang password sudah dikirim. Periksa inbox Anda.",
+        "success"
+      );
+
+      forgotPassword.textContent =
+        "Email reset sudah dikirim";
+
+    });
+  </script>
+
+</body>
+</html>
