@@ -65,6 +65,41 @@ footer{background:#062d20;color:#dceee7;padding:42px 0}
 @media(max-width:560px){
   .article h1{font-size:32px}.cover,.hero{height:235px}.sharebuttons{gap:9px}
 }
+
+/* ===== Layout sidebar & pilihan paket — standar artikel Panduan ===== */
+.wrap{width:92%;max-width:1160px;margin:0 auto}
+.crumb{font-size:13px;color:var(--muted);margin:0 0 18px}
+.crumb a{color:var(--g2);font-weight:700}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:26px;align-items:start}
+.article{min-width:0}
+.side{position:sticky;top:94px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:20px;box-shadow:0 8px 24px rgba(16,37,28,.05)}
+.box h3{font-family:Georgia,serif;font-size:20px;line-height:1.25;margin:0 0 14px;color:#10251c}
+.select{display:block;width:100%;height:44px;margin:0 0 10px;padding:0 12px;border:1px solid #d7e1db;border-radius:10px;background:#fff;color:var(--ink);font:inherit;outline:none}
+.select:focus{border-color:var(--g2);box-shadow:0 0 0 3px rgba(11,123,77,.10)}
+.search{width:100%;height:44px;border:0;border-radius:10px;background:var(--g);color:#fff;font-weight:800;cursor:pointer}
+.search:hover{background:var(--g2)}
+.package{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;margin-top:14px;padding-bottom:14px}
+.package:first-of-type{margin-top:0}
+.package img{display:block;width:100%;height:150px;object-fit:cover}
+.package b{display:block;padding:12px 14px 2px;font-size:15px;line-height:1.35;color:var(--ink)}
+.price{padding:3px 14px 10px;color:var(--g2);font-size:15px;font-weight:900}
+.detail{display:inline-flex;margin:0 14px;padding:8px 13px;border-radius:9px;background:#eef6f1;color:var(--g);font-size:13px;font-weight:800}
+.detail:hover{background:#dfeee6}
+.side>.cta{display:block;background:var(--g);color:#fff;border-radius:18px;padding:20px}
+.side>.cta h3{font-size:22px;margin:0 0 7px}
+.side>.cta p{font-size:14px;color:#d9eee5;margin:0 0 14px}
+.wa{display:inline-flex;align-items:center;justify-content:center;background:#25D366;color:#07351f;padding:10px 16px;border-radius:10px;font-weight:900}
+@media(max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .side{position:static}
+}
+@media(max-width:650px){
+  .wrap{width:92%}
+  .box{padding:17px}
+  .package img{height:175px}
+}
+
 </style></head>
 <body>
 <nav class="nav"><div class="container navin">
