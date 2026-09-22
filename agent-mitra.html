@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Program Agent & Mitra | Probolinggo Rafting</title>
+<meta name="description" content="Bergabung menjadi Agent atau Mitra Probolinggo Rafting dan dapatkan kesempatan komisi dari setiap penjualan.">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root{
+  --green:#0b6b45;
+  --green2:#0f8a59;
+  --dark:#10251c;
+  --muted:#66776f;
+  --line:#dfe9e3;
+  --light:#f4f8f5;
+  --white:#fff;
+  --yellow:#e9b949;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--dark);
+  background:#f7faf8;
+  line-height:1.6;
+}
+
+a{text-decoration:none;color:inherit}
+
+.container{
+  width:92%;
+  max-width:1160px;
+  margin:auto;
+}
+
+/* NAVBAR */
+.nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+}
+
+.navin{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:900;
+}
+
+.brand img{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+}
+
+.brand span{
+  font-size:18px;
+}
+
+.navlinks{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.navlinks a:hover{
+  color:var(--green2);
+}
+
+.navbtn{
+  background:var(--green);
+  color:#fff;
+  padding:11px 17px;
+  border-radius:10px;
+}
+
+/* HERO */
+.hero{
+  background:
+    linear-gradient(90deg,rgba(8,35,24,.92),rgba(8,35,24,.55)),
+    url("river-wide.webp") center/cover;
+  color:#fff;
+  padding:90px 0;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:45px;
+  align-items:center;
+}
+
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.2);
+  padding:7px 13px;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:15px;
+}
+
+.hero h1{
+  font-family:Georgia,serif;
+  font-size:48px;
+  line-height:1.08;
+  margin:0 0 20px;
+}
+
+.hero p{
+  color:#e1eee8;
+  font-size:17px;
+  max-width:680px;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:28px;
+}
+
+.btn{
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  padding:13px 20px;
+  border-radius:11px;
+  font-weight:900;
+}
+
+.btn-primary{
+  background:#fff;
+  color:var(--green);
+}
+
+.btn-outline{
+  border:1px solid rgba(255,255,255,.45);
+  color:#fff;
+}
+
+/* COMMISSION */
+.stats{
+  margin-top:-38px;
+  position:relative;
+  z-index:3;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.stat{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(16,37,28,.07);
+}
+
+.stat strong{
+  display:block;
+  font-size:30px;
+  color:var(--green);
+}
+
+.stat span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+/* SECTION */
+.section{
+  padding:75px 0;
+}
+
+.section-head{
+  text-align:center;
+  max-width:760px;
+  margin:0 auto 40px;
+}
+
+.section-head h2{
+  font-family:Georgia,serif;
+  font-size:34px;
+  margin:0 0 10px;
+}
+
+.section-head p{
+  color:var(--muted);
+}
+
+/* TYPE */
+.type-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:22px;
+}
+
+.type-card{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:30px;
+}
+
+.type-card.agent{
+  border-top:5px solid var(--green);
+}
+
+.type-card.mitra{
+  border-top:5px solid var(--yellow);
+}
+
+.type-card h3{
+  margin:0 0 7px;
+  font-size:24px;
+}
+
+.commission{
+  font-size:30px;
+  font-weight:900;
+  color:var(--green);
+  margin:12px 0;
+}
+
+.type-card ul{
+  padding-left:20px;
+  color:#52645b;
+}
+
+/* BENEFIT */
+.benefit-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.benefit{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:23px;
+}
+
+.icon{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:#e8f5ee;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  margin-bottom:13px;
+}
+
+.benefit h3{
+  margin:0 0 5px;
+  font-size:17px;
+}
+
+.benefit p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+/* FORM */
+.form-section{
+  background:#eef6f1;
+}
+
+.form-wrap{
+  max-width:850px;
+  margin:auto;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:32px;
+  box-shadow:0 12px 35px rgba(16,37,28,.06);
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:17px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:14px;
+  font-weight:800;
+}
+
+.field input,
+.field select,
+.field textarea{
+  width:100%;
+  border:1px solid #d6e1db;
+  border-radius:10px;
+  padding:12px 13px;
+  font:inherit;
+  background:#fff;
+  color:var(--dark);
+}
+
+.field textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+  outline:none;
+  border-color:var(--green2);
+  box-shadow:0 0 0 3px rgba(15,138,89,.1);
+}
+
+.required{
+  color:#c0392b;
+}
+
+.submit{
+  width:100%;
+  border:0;
+  background:var(--green);
+  color:#fff;
+  padding:14px;
+  border-radius:11px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.submit:hover{
+  background:var(--green2);
+}
+
+.submit:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.notice{
+  margin-top:15px;
+  padding:13px 15px;
+  border-radius:10px;
+  display:none;
+  font-size:14px;
+}
+
+.notice.success{
+  display:block;
+  background:#e7f7ed;
+  color:#12623d;
+}
+
+.notice.error{
+  display:block;
+  background:#fdecec;
+  color:#9d2525;
+}
+
+/* FAQ */
+.faq{
+  max-width:850px;
+  margin:auto;
+}
+
+details{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:17px 20px;
+  margin-bottom:11px;
+}
+
+summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+/* FOOTER */
+.footer{
+  background:#10251c;
+  color:#fff;
+  padding:45px 0 25px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:30px;
+}
+
+.footer h3{
+  margin-top:0;
+}
+
+.footer p{
+  color:#b9cec4;
+  font-size:14px;
+}
+
+.footer a{
+  display:block;
+  color:#dcebe4;
+  margin:5px 0;
+  font-size:14px;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.12);
+  margin-top:30px;
+  padding-top:20px;
+  color:#94b8aa;
+  font-size:13px;
+}
+
+/* MOBILE */
+@media(max-width:850px){
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .benefit-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .navlinks{
+    display:none;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:600px){
+  .hero{
+    padding:65px 0;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .stats-grid,
+  .type-grid,
+  .benefit-grid,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .form-wrap{
+    padding:22px;
+  }
+
+  .section{
+    padding:55px 0;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<nav class="nav">
+  <div class="container navin">
+
+    <a class="brand" href="index.html">
+      <img src="logo.webp" alt="Probolinggo Rafting">
+      <span>Probolinggo Rafting</span>
+    </a>
+
+    <div class="navlinks">
+      <a href="index.html">Beranda</a>
+      <a href="blog.html">Blog</a>
+      <a href="#program">Program</a>
+      <a href="#faq">FAQ</a>
+      <a href="#daftar" class="navbtn">Daftar Sekarang</a>
+    </div>
+
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="container hero-grid">
+
+    <div>
+      <span class="badge">PROGRAM AGENT & MITRA</span>
+
+      <h1>
+        Jadi Partner Probolinggo Rafting & Dapatkan Komisi
+      </h1>
+
+      <p>
+        Bangun peluang penghasilan tambahan dengan menawarkan paket
+        Probolinggo Rafting kepada keluarga, teman, komunitas,
+        sekolah, perusahaan maupun pelanggan Anda.
+      </p>
+
+      <div class="hero-actions">
+        <a href="#daftar" class="btn btn-primary">
+          Gabung Sekarang
+        </a>
+
+        <a href="#program" class="btn btn-outline">
+          Lihat Program
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="stats">
+  <div class="container stats-grid">
+
+    <div class="stat">
+      <strong>5%</strong>
+      <span>Komisi Mitra</span>
+    </div>
+
+    <div class="stat">
+      <strong>20%</strong>
+      <span>Komisi Agent</span>
+    </div>
+
+    <div class="stat">
+      <strong>2</strong>
+      <span>Pilihan Program</span>
+    </div>
+
+    <div class="stat">
+      <strong>Rp0</strong>
+      <span>Biaya Pendaftaran</span>
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="program">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Pilih Program yang Sesuai</h2>
+      <p>
+        Pilih menjadi Mitra atau Agent sesuai cara Anda ingin
+        bekerja sama dengan Probolinggo Rafting.
+      </p>
+    </div>
+
+    <div class="type-grid">
+
+      <div class="type-card mitra">
+        <h3>🤝 Mitra</h3>
+        <div class="commission">5%</div>
+
+        <p>
+          Cocok untuk Anda yang ingin merekomendasikan
+          Probolinggo Rafting kepada pelanggan atau jaringan Anda.
+        </p>
+
+        <ul>
+          <li>Komisi 5% dari penjualan yang memenuhi ketentuan</li>
+          <li>Cocok untuk komunitas, individu dan jaringan bisnis</li>
+          <li>Informasi paket dan bantuan dari tim</li>
+          <li>Tidak perlu mengelola sistem pemesanan sendiri</li>
+        </ul>
+      </div>
+
+      <div class="type-card agent">
+        <h3>🚀 Agent</h3>
+        <div class="commission">20%</div>
+
+        <p>
+          Cocok untuk travel agent, tour operator atau pihak
+          yang aktif menjual paket wisata.
+        </p>
+
+        <ul>
+          <li>Komisi 20% sesuai ketentuan program</li>
+          <li>Cocok untuk penjualan secara aktif</li>
+          <li>Dapat memasarkan berbagai paket yang tersedia</li>
+          <li>Data penjualan dapat dicatat dalam sistem</li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="section" style="background:#fff">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Benefit Bergabung</h2>
+      <p>
+        Program dibuat untuk membantu partner memasarkan
+        pengalaman rafting dengan lebih mudah.
+      </p>
+    </div>
+
+    <div class="benefit-grid">
+
+      <div class="benefit">
+        <div class="icon">💰</div>
+        <h3>Komisi Penjualan</h3>
+        <p>
+          Dapatkan komisi berdasarkan tipe kerja sama dan
+          transaksi yang tercatat.
+        </p>
+      </div>
+
+      <div class="benefit">
+        <div class="icon">📋</div>
+        <h3>Informasi Paket</h3>
+        <p>
+          Partner dapat menawarkan paket rafting yang tersedia
+          kepada calon pelanggan.
+        </p>
+      </div>
+
+      <div class="benefit">
+        <div class="icon">📸</div>
+        <h3>Materi Promosi</h3>
+        <p>
+          Gunakan informasi dan materi yang disediakan untuk
+          membantu proses pemasaran.
+        </p>
+      </div>
+
+      <div class="benefit">
+        <div class="icon">🤝</div>
+        <h3>Dukungan Tim</h3>
+        <p>
+          Tim Probolinggo Rafting siap membantu informasi
+          mengenai paket dan proses pemesanan.
+        </p>
+      </div>
+
+      <div class="benefit">
+        <div class="icon">📊</div>
+        <h3>Pencatatan Penjualan</h3>
+        <p>
+          Transaksi partner dapat dicatat sehingga komisi
+          dapat dihitung secara sistematis.
+        </p>
+      </div>
+
+      <div class="benefit">
+        <div class="icon">🌿</div>
+        <h3>Produk Wisata</h3>
+        <p>
+          Tawarkan pengalaman rafting dan aktivitas adventure
+          Probolinggo kepada jaringan Anda.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="section form-section" id="daftar">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Daftar Agent & Mitra</h2>
+      <p>
+        Isi data berikut. Setelah dikirim, pendaftaran akan
+        masuk ke sistem dengan status <strong>Menunggu</strong>
+        untuk proses verifikasi.
+      </p>
+    </div>
+
+    <div class="form-wrap">
+
+      <form id="agentForm">
+
+        <div class="form-grid">
+
+          <div class="field">
+            <label>
+              Nama Lengkap <span class="required">*</span>
+            </label>
+            <input
+              id="nama_lengkap"
+              type="text"
+              required
+              maxlength="100"
+              placeholder="Nama lengkap"
+            >
+          </div>
+
+          <div class="field">
+            <label>
+              Email <span class="required">*</span>
+            </label>
+            <input
+              id="email"
+              type="email"
+              required
+              maxlength="150"
+              placeholder="nama@email.com"
+            >
+          </div>
+
+          <div class="field">
+            <label>
+              No. WhatsApp <span class="required">*</span>
+            </label>
+            <input
+              id="no_whatsapp"
+              type="tel"
+              required
+              maxlength="30"
+              placeholder="08xxxxxxxxxx"
+            >
+          </div>
+
+          <div class="field">
+            <label>
+              Domisili <span class="required">*</span>
+            </label>
+            <input
+              id="domisili"
+              type="text"
+              required
+              maxlength="100"
+              placeholder="Kota / Kabupaten"
+            >
+          </div>
+
+          <div class="field">
+            <label>
+              Pilih Program <span class="required">*</span>
+            </label>
+
+            <select id="tipe" required>
+              <option value="">-- Pilih --</option>
+              <option value="Mitra">Mitra — Komisi 5%</option>
+              <option value="Agent">Agent — Komisi 20%</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>
+              Pilihan Kontak <span class="required">*</span>
+            </label>
+
+            <select id="kontak_preferensi" required>
+              <option value="">-- Pilih --</option>
+              <option value="WhatsApp">WhatsApp</option>
+              <option value="Telepon">Telepon</option>
+              <option value="Email">Email</option>
+            </select>
+          </div>
+
+          <div class="field full">
+            <label>
+              Pengalaman Penjualan
+            </label>
+
+            <textarea
+              id="pengalaman_penjualan"
+              maxlength="1000"
+              placeholder="Contoh: travel agent, tour operator, komunitas, reseller, belum memiliki pengalaman, dll."
+            ></textarea>
+          </div>
+
+          <div class="field full">
+            <label>
+              Catatan
+            </label>
+
+            <textarea
+              id="catatan"
+              maxlength="1000"
+              placeholder="Informasi tambahan yang ingin disampaikan"
+            ></textarea>
+          </div>
+
+          <div class="field full">
+
+            <button
+              class="submit"
+              id="submitBtn"
+              type="submit"
+            >
+              Gabung Sebagai Agent / Mitra
+            </button>
+
+            <div id="notice" class="notice"></div>
+
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Pertanyaan Umum</h2>
+      <p>
+        Informasi dasar mengenai program Agent & Mitra.
+      </p>
+    </div>
+
+    <div class="faq">
+
+      <details>
+        <summary>Apa itu program Agent & Mitra?</summary>
+        <p>
+          Program kerja sama bagi pihak yang ingin membantu
+          memasarkan paket Probolinggo Rafting.
+        </p>
+      </details>
+
+      <details>
+        <summary>Berapa komisi Mitra?</summary>
+        <p>
+          Komisi Mitra adalah <strong>5%</strong> sesuai
+          ketentuan program.
+        </p>
+      </details>
+
+      <details>
+        <summary>Berapa komisi Agent?</summary>
+        <p>
+          Komisi Agent adalah <strong>20%</strong> sesuai
+          ketentuan program.
+        </p>
+      </details>
+
+      <details>
+        <summary>Apakah pendaftaran langsung aktif?</summary>
+        <p>
+          Tidak. Data pendaftaran masuk dengan status
+          <strong>Menunggu</strong> dan perlu diverifikasi
+          terlebih dahulu.
+        </p>
+      </details>
+
+      <details>
+        <summary>Bagaimana saya akan dihubungi?</summary>
+        <p>
+          Anda dapat memilih WhatsApp, Telepon atau Email
+          sebagai pilihan kontak saat mendaftar.
+        </p>
+      </details>
+
+    </div>
+
+  </div>
+</section>
+
+<footer class="footer">
+
+  <div class="container footer-grid">
+
+    <div>
+      <h3>Probolinggo Rafting</h3>
+      <p>
+        Arusnya Menggoda, Petualangannya Luar Biasa!
+      </p>
+      <p>
+        Rafting • Family Adventure • Team Building • Outbound • River Camp
+      </p>
+    </div>
+
+    <div>
+      <h3>Menu</h3>
+      <a href="index.html">Beranda</a>
+      <a href="blog.html">Blog</a>
+      <a href="#program">Program Agent & Mitra</a>
+      <a href="#daftar">Daftar</a>
+    </div>
+
+    <div>
+      <h3>Hubungi Kami</h3>
+      <a href="https://wa.me/6282322496393" target="_blank">
+        WhatsApp
+      </a>
+      <a href="mailto:elshanumprobolinggorafting@gmail.com">
+        Email
+      </a>
+      <p>
+        07.00–16.00 WIB<br>
+        Probolinggo, Jawa Timur
+      </p>
+    </div>
+
+  </div>
+
+  <div class="container copyright">
+    © 2026 Probolinggo Rafting. Semua hak dilindungi.
+  </div>
+
+</footer>
+
+<script>
+const SUPABASE_URL =
+  "https://ecyfvwozazvhwkpevriy.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_ahlAi_-PJh7e8hNxGhn7_g_wBmKU8I4";
+
+const { createClient } = supabase;
+
+const db = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+const form = document.getElementById("agentForm");
+const submitBtn = document.getElementById("submitBtn");
+const notice = document.getElementById("notice");
+
+form.addEventListener("submit", async function(e){
+
+  e.preventDefault();
+
+  notice.className = "notice";
+  notice.textContent = "";
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Mengirim pendaftaran...";
+
+  const data = {
+    nama_lengkap:
+      document.getElementById("nama_lengkap").value.trim(),
+
+    email:
+      document.getElementById("email").value.trim(),
+
+    no_whatsapp:
+      document.getElementById("no_whatsapp").value.trim(),
+
+    domisili:
+      document.getElementById("domisili").value.trim(),
+
+    tipe:
+      document.getElementById("tipe").value,
+
+    kontak_preferensi:
+      document.getElementById("kontak_preferensi").value,
+
+    pengalaman_penjualan:
+      document.getElementById("pengalaman_penjualan").value.trim(),
+
+    catatan:
+      document.getElementById("catatan").value.trim(),
+
+    status: "menunggu"
+  };
+
+  try{
+
+    const { error } = await db
+      .from("Agen Mitra")
+      .insert([data]);
+
+    if(error){
+      throw error;
+    }
+
+    notice.className = "notice success";
+
+    notice.innerHTML =
+      "<strong>Pendaftaran berhasil dikirim.</strong><br>" +
+      "Data Anda sudah masuk ke sistem dan menunggu proses verifikasi.";
+
+    form.reset();
+
+  }catch(error){
+
+    console.error(error);
+
+    notice.className = "notice error";
+
+    notice.innerHTML =
+      "<strong>Pendaftaran belum berhasil.</strong><br>" +
+      "Silakan coba lagi atau hubungi kami melalui WhatsApp.";
+
+  }finally{
+
+    submitBtn.disabled = false;
+    submitBtn.textContent =
+      "Gabung Sebagai Agent / Mitra";
+
+  }
+
+});
+</script>
+
+</body>
+</html>
