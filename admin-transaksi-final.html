@@ -477,8 +477,8 @@
           </div>
 
           <div class="field">
-            <label for="transactionValue">Nilai Penjualan (Rp)</label>
-            <input type="number" id="transactionValue" min="0" step="1000" placeholder="Contoh: 3350000" required>
+           <label for="transactionValue">Harga Paket / Orang (Rp)</label>
+            <input type="number" id="transactionValue" min="0" step="1000" placeholder="Contoh: 335000" required>
           </div>
 
           <div class="field">
@@ -1035,7 +1035,7 @@
         .insert({
           agent_mitra_id: Number(transactionAgent.value),
           jumlah_tamu: Number(transactionGuests.value),
-          nilai_penjualan: Number(transactionValue.value),
+          nilai_penjualan: Number(transactionValue.value) * Number(transactionGuests.value),
           nama_paket: transactionPackage.value,
           tanggal_transaksi: transactionDate.value,
           catatan: transactionNote.value.trim() || null
