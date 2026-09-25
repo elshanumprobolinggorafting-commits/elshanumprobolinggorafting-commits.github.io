@@ -739,18 +739,19 @@ summary{
             >
           </div>
 
-          <div class="field">
-            <label>
-              Email <span class="required">*</span>
-            </label>
-            <input
-              id="email"
-              type="email"
-              required
-              maxlength="150"
-              placeholder="nama@email.com"
-            >
-          </div>
+        <div class="field">
+  <label>
+    Password <span class="required">*</span>
+  </label>
+  <input
+    id="password"
+    type="password"
+    required
+    minlength="6"
+    maxlength="100"
+    placeholder="Minimal 6 karakter"
+  >
+</div>
 
           <div class="field">
             <label>
@@ -978,14 +979,19 @@ form.addEventListener("submit", async function(e){
   notice.textContent = "";
 
   submitBtn.disabled = true;
-  submitBtn.textContent = "Mengirim pendaftaran...";
+  submitBtn.textContent = "Membuat akun...";
+
+  const email =
+    document.getElementById("email").value.trim();
+
+  const password =
+    document.getElementById("password").value;
 
   const data = {
     nama_lengkap:
       document.getElementById("nama_lengkap").value.trim(),
 
-    email:
-      document.getElementById("email").value.trim(),
+    email: email,
 
     no_whatsapp:
       document.getElementById("no_whatsapp").value.trim(),
@@ -1010,19 +1016,44 @@ form.addEventListener("submit", async function(e){
 
   try{
 
-    const { error } = await db
+    /* 1. BUAT AKUN SUPABASE AUTH */
+
+    const { data: authData, error: authError } =
+      await db.auth.signUp({
+        email: email,
+        password: password
+      });
+
+    if(authError){
+      throw authError;
+    }
+
+    if(!authData.user){
+      throw new Error("Akun berhasil dibuat tetapi user ID tidak ditemukan.");
+    }
+
+    /* 2. SIMPAN USER ID KE DATA AGEN */
+
+    data.user_id = authData.user.id;
+
+    submitBtn.textContent = "Menyimpan pendaftaran...";
+
+    const { error: insertError } = await db
       .from("Agen Mitra")
       .insert([data]);
 
-    if(error){
-      throw error;
+    if(insertError){
+      throw insertError;
     }
+
+    /* 3. BERHASIL */
 
     notice.className = "notice success";
 
     notice.innerHTML =
-      "<strong>Pendaftaran berhasil dikirim.</strong><br>" +
-      "Data Anda sudah masuk ke sistem dan menunggu proses verifikasi.";
+      "<strong>Pendaftaran berhasil!</strong><br>" +
+      "Akun Anda sudah dibuat dan data pendaftaran sudah masuk ke sistem.<br>" +
+      "Status pendaftaran saat ini <strong>Menunggu verifikasi</strong>.";
 
     form.reset();
 
@@ -1032,13 +1063,25 @@ form.addEventListener("submit", async function(e){
 
     notice.className = "notice error";
 
-    notice.innerHTML =
-      "<strong>Pendaftaran belum berhasil.</strong><br>" +
-      "Silakan coba lagi atau hubungi kami melalui WhatsApp.";
+    if(error.message &&
+       error.message.toLowerCase().includes("already registered")){
+
+      notice.innerHTML =
+        "<strong>Email sudah terdaftar.</strong><br>" +
+        "Silakan gunakan email lain atau gunakan akun yang sudah terdaftar.";
+
+    }else{
+
+      notice.innerHTML =
+        "<strong>Pendaftaran belum berhasil.</strong><br>" +
+        (error.message || "Silakan coba lagi atau hubungi kami melalui WhatsApp.");
+
+    }
 
   }finally{
 
     submitBtn.disabled = false;
+
     submitBtn.textContent =
       "Gabung Sebagai Agent / Mitra";
 
