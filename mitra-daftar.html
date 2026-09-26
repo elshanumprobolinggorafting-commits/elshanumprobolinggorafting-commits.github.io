@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Daftar Mitra | Probolinggo Rafting</title>
+
+<meta
+  name="description"
+  content="Daftar sebagai Mitra Probolinggo Rafting dan dapatkan komisi 5%."
+>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+:root{
+  --green:#0b6b45;
+  --green2:#0f8a59;
+  --dark:#10251c;
+  --muted:#66776f;
+  --line:#dfe9e3;
+  --light:#f4f8f5;
+  --white:#fff;
+  --yellow:#e9b949;
+}
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  color:var(--dark);
+  background:#f7faf8;
+  line-height:1.6;
+}
+
+a{
+  text-decoration:none;
+  color:inherit;
+}
+
+.container{
+  width:92%;
+  max-width:1160px;
+  margin:auto;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.nav{
+  position:sticky;
+  top:0;
+  z-index:50;
+  background:#fff;
+  border-bottom:1px solid var(--line);
+}
+
+.navin{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:900;
+}
+
+.brand img{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+}
+
+.brand span{
+  font-size:18px;
+}
+
+.navlinks{
+  display:flex;
+  align-items:center;
+  gap:22px;
+  font-size:14px;
+  font-weight:700;
+}
+
+.navlinks a:hover{
+  color:var(--green2);
+}
+
+.navbtn{
+  background:var(--green);
+  color:#fff;
+  padding:11px 17px;
+  border-radius:10px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  background:
+    linear-gradient(
+      90deg,
+      rgba(8,35,24,.92),
+      rgba(8,35,24,.55)
+    ),
+    url("river-wide.webp") center/cover;
+
+  color:#fff;
+  padding:90px 0;
+}
+
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:45px;
+  align-items:center;
+}
+
+.badge{
+  display:inline-block;
+  background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.2);
+  padding:7px 13px;
+  border-radius:30px;
+  font-size:13px;
+  font-weight:800;
+  margin-bottom:15px;
+}
+
+.hero h1{
+  font-family:Georgia,serif;
+  font-size:48px;
+  line-height:1.08;
+  margin:0 0 20px;
+}
+
+.hero p{
+  color:#e1eee8;
+  font-size:17px;
+  max-width:680px;
+}
+
+.hero-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:28px;
+}
+
+.btn{
+  display:inline-flex;
+  justify-content:center;
+  align-items:center;
+  padding:13px 20px;
+  border-radius:11px;
+  font-weight:900;
+}
+
+.btn-primary{
+  background:#fff;
+  color:var(--green);
+}
+
+.btn-outline{
+  border:1px solid rgba(255,255,255,.45);
+  color:#fff;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
+  margin-top:-38px;
+  position:relative;
+  z-index:3;
+}
+
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.stat{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:24px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(16,37,28,.07);
+}
+
+.stat strong{
+  display:block;
+  font-size:30px;
+  color:var(--green);
+}
+
+.stat span{
+  color:var(--muted);
+  font-size:13px;
+}
+
+
+/* =========================
+   SECTION
+========================= */
+
+.section{
+  padding:75px 0;
+}
+
+.section-head{
+  text-align:center;
+  max-width:760px;
+  margin:0 auto 40px;
+}
+
+.section-head h2{
+  font-family:Georgia,serif;
+  font-size:34px;
+  margin:0 0 10px;
+}
+
+.section-head p{
+  color:var(--muted);
+}
+
+
+/* =========================
+   BENEFIT
+========================= */
+
+.benefit-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.benefit{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:17px;
+  padding:23px;
+}
+
+.icon{
+  width:45px;
+  height:45px;
+  border-radius:12px;
+  background:#e8f5ee;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  margin-bottom:13px;
+}
+
+.benefit h3{
+  margin:0 0 5px;
+  font-size:17px;
+}
+
+.benefit p{
+  margin:0;
+  color:var(--muted);
+  font-size:14px;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.form-section{
+  background:#eef6f1;
+}
+
+.form-wrap{
+  max-width:850px;
+  margin:auto;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:32px;
+  box-shadow:0 12px 35px rgba(16,37,28,.06);
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:17px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+.field label{
+  font-size:14px;
+  font-weight:800;
+}
+
+.field input{
+  width:100%;
+  border:1px solid #d6e1db;
+  border-radius:10px;
+  padding:12px 13px;
+  font:inherit;
+  background:#fff;
+  color:var(--dark);
+}
+
+.field input:focus{
+  outline:none;
+  border-color:var(--green2);
+  box-shadow:
+    0 0 0 3px rgba(15,138,89,.1);
+}
+
+.required{
+  color:#c0392b;
+}
+
+.password-note{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.submit{
+  width:100%;
+  border:0;
+  background:var(--green);
+  color:#fff;
+  padding:14px;
+  border-radius:11px;
+  font-size:16px;
+  font-weight:900;
+  cursor:pointer;
+}
+
+.submit:hover{
+  background:var(--green2);
+}
+
+.submit:disabled{
+  opacity:.65;
+  cursor:not-allowed;
+}
+
+.notice{
+  margin-top:15px;
+  padding:13px 15px;
+  border-radius:10px;
+  display:none;
+  font-size:14px;
+}
+
+.notice.success{
+  display:block;
+  background:#e7f7ed;
+  color:#12623d;
+}
+
+.notice.error{
+  display:block;
+  background:#fdecec;
+  color:#9d2525;
+}
+
+.login-link{
+  text-align:center;
+  margin-top:18px;
+  font-size:14px;
+  color:var(--muted);
+}
+
+.login-link a{
+  color:var(--green);
+  font-weight:800;
+}
+
+
+/* =========================
+   FAQ
+========================= */
+
+.faq{
+  max-width:850px;
+  margin:auto;
+}
+
+details{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:17px 20px;
+  margin-bottom:11px;
+}
+
+summary{
+  cursor:pointer;
+  font-weight:800;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+  background:#10251c;
+  color:#fff;
+  padding:45px 0 25px;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:30px;
+}
+
+.footer h3{
+  margin-top:0;
+}
+
+.footer p{
+  color:#b9cec4;
+  font-size:14px;
+}
+
+.footer a{
+  display:block;
+  color:#dcebe4;
+  margin:5px 0;
+  font-size:14px;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.12);
+  margin-top:30px;
+  padding-top:20px;
+  color:#94b8aa;
+  font-size:13px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:850px){
+
+  .hero-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hero h1{
+    font-size:38px;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .benefit-grid{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .navlinks{
+    display:none;
+  }
+
+  .footer-grid{
+    grid-template-columns:1fr;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .hero{
+    padding:65px 0;
+  }
+
+  .hero h1{
+    font-size:32px;
+  }
+
+  .stats-grid,
+  .benefit-grid,
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
+    grid-column:auto;
+  }
+
+  .form-wrap{
+    padding:22px;
+  }
+
+  .section{
+    padding:55px 0;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="nav">
+
+  <div class="container navin">
+
+    <a class="brand" href="index.html">
+
+      <img
+        src="logo.webp"
+        alt="Probolinggo Rafting"
+      >
+
+      <span>
+        Probolinggo Rafting
+      </span>
+
+    </a>
+
+
+    <div class="navlinks">
+
+      <a href="index.html">
+        Beranda
+      </a>
+
+      <a href="agent-mitra.html">
+        Program Agent & Mitra
+      </a>
+
+      <a href="mitra-daftar.html">
+        Daftar Mitra
+      </a>
+
+      <a
+        href="mitra-login.html"
+        class="navbtn"
+      >
+        Login Mitra
+      </a>
+
+    </div>
+
+  </div>
+
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+  <div class="container hero-grid">
+
+    <div>
+
+      <span class="badge">
+        PROGRAM MITRA PROBOLINGGO RAFTING
+      </span>
+
+
+      <h1>
+        Bergabung Sebagai Mitra
+        Probolinggo Rafting
+      </h1>
+
+
+      <p>
+        Daftarkan akun Mitra Anda dan
+        dapatkan akses ke sistem Mitra
+        untuk memantau transaksi dan
+        komisi Anda.
+      </p>
+
+
+      <div class="hero-actions">
+
+        <a
+          href="#daftar"
+          class="btn btn-primary"
+        >
+          Daftar Sebagai Mitra
+        </a>
+
+
+        <a
+          href="mitra-login.html"
+          class="btn btn-outline"
+        >
+          Sudah Punya Akun?
+        </a>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="stats">
+
+  <div class="container stats-grid">
+
+
+    <div class="stat">
+
+      <strong>
+        5%
+      </strong>
+
+      <span>
+        Komisi Mitra
+      </span>
+
+    </div>
+
+
+    <div class="stat">
+
+      <strong>
+        Rp0
+      </strong>
+
+      <span>
+        Biaya Pendaftaran
+      </span>
+
+    </div>
+
+
+    <div class="stat">
+
+      <strong>
+        1
+      </strong>
+
+      <span>
+        Akun Pribadi
+      </span>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     BENEFIT
+========================= -->
+
+<section
+  class="section"
+  style="background:#fff"
+>
+
+  <div class="container">
+
+
+    <div class="section-head">
+
+      <h2>
+        Keuntungan Menjadi Mitra
+      </h2>
+
+      <p>
+        Program Mitra dibuat untuk membantu
+        Anda merekomendasikan Probolinggo
+        Rafting sekaligus memantau hasil
+        penjualan Anda.
+      </p>
+
+    </div>
+
+
+    <div class="benefit-grid">
+
+
+      <div class="benefit">
+
+        <div class="icon">
+          💰
+        </div>
+
+        <h3>
+          Komisi 5%
+        </h3>
+
+        <p>
+          Dapatkan komisi Mitra sebesar
+          5% dari transaksi yang tercatat
+          sesuai ketentuan program.
+        </p>
+
+      </div>
+
+
+      <div class="benefit">
+
+        <div class="icon">
+          📊
+        </div>
+
+        <h3>
+          Dashboard Pribadi
+        </h3>
+
+        <p>
+          Setelah sistem aktif, Anda dapat
+          melihat transaksi dan komisi
+          melalui akun pribadi.
+        </p>
+
+      </div>
+
+
+      <div class="benefit">
+
+        <div class="icon">
+          🔐
+        </div>
+
+        <h3>
+          Akun Pribadi
+        </h3>
+
+        <p>
+          Data transaksi dan komisi
+          akan dikaitkan dengan akun
+          Mitra masing-masing.
+        </p>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FORM
+========================= -->
+
+<section
+  class="section form-section"
+  id="daftar"
+>
+
+  <div class="container">
+
+
+    <div class="section-head">
+
+      <h2>
+        Daftar Akun Mitra
+      </h2>
+
+      <p>
+        Lengkapi data berikut untuk membuat
+        akun Mitra Probolinggo Rafting.
+        Email harus aktif karena digunakan
+        untuk konfirmasi akun.
+      </p>
+
+    </div>
+
+
+    <div class="form-wrap">
+
+
+      <form id="mitraForm">
+
+
+        <div class="form-grid">
+
+
+          <!-- NAMA -->
+
+          <div class="field">
+
+            <label>
+              Nama Lengkap
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="nama_lengkap"
+              type="text"
+              required
+              maxlength="100"
+              autocomplete="name"
+              placeholder="Nama lengkap"
+            >
+
+          </div>
+
+
+          <!-- EMAIL -->
+
+          <div class="field">
+
+            <label>
+              Email
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="email"
+              type="email"
+              required
+              maxlength="150"
+              autocomplete="email"
+              placeholder="nama@email.com"
+            >
+
+          </div>
+
+
+          <!-- WHATSAPP -->
+
+          <div class="field">
+
+            <label>
+              Nomor WhatsApp
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="no_whatsapp"
+              type="tel"
+              required
+              maxlength="30"
+              autocomplete="tel"
+              placeholder="08xxxxxxxxxx"
+            >
+
+          </div>
+
+
+          <!-- DOMISILI -->
+
+          <div class="field">
+
+            <label>
+              Domisili
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="domisili"
+              type="text"
+              required
+              maxlength="100"
+              autocomplete="address-level2"
+              placeholder="Kota / Kabupaten"
+            >
+
+          </div>
+
+
+          <!-- PASSWORD -->
+
+          <div class="field">
+
+            <label>
+              Password
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="password"
+              type="password"
+              required
+              minlength="8"
+              maxlength="72"
+              autocomplete="new-password"
+              placeholder="Minimal 8 karakter"
+            >
+
+            <div class="password-note">
+              Minimal 8 karakter.
+            </div>
+
+          </div>
+
+
+          <!-- KONFIRMASI PASSWORD -->
+
+          <div class="field">
+
+            <label>
+              Konfirmasi Password
+              <span class="required">*</span>
+            </label>
+
+            <input
+              id="password_confirm"
+              type="password"
+              required
+              minlength="8"
+              maxlength="72"
+              autocomplete="new-password"
+              placeholder="Ulangi password"
+            >
+
+          </div>
+
+
+          <!-- SUBMIT -->
+
+          <div class="field full">
+
+            <button
+              class="submit"
+              id="submitBtn"
+              type="submit"
+            >
+              Daftar Sebagai Mitra
+            </button>
+
+
+            <div
+              id="notice"
+              class="notice"
+            ></div>
+
+          </div>
+
+
+        </div>
+
+      </form>
+
+
+      <div class="login-link">
+
+        Sudah memiliki akun?
+
+        <a href="mitra-login.html">
+          Login Mitra
+        </a>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FAQ
+========================= -->
+
+<section
+  class="section"
+  id="faq"
+>
+
+  <div class="container">
+
+
+    <div class="section-head">
+
+      <h2>
+        Pertanyaan Umum
+      </h2>
+
+      <p>
+        Informasi dasar mengenai akun Mitra.
+      </p>
+
+    </div>
+
+
+    <div class="faq">
+
+
+      <details>
+
+        <summary>
+          Berapa komisi Mitra?
+        </summary>
+
+        <p>
+          Komisi Mitra adalah
+          <strong>5%</strong>
+          sesuai ketentuan program.
+        </p>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          Apakah setelah daftar langsung bisa login?
+        </summary>
+
+        <p>
+          Setelah pendaftaran, Anda perlu
+          melakukan konfirmasi email terlebih
+          dahulu sebelum login.
+        </p>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          Apakah Mitra bisa melihat data Mitra lain?
+        </summary>
+
+        <p>
+          Tidak. Sistem akan menghubungkan
+          akun dengan data Mitra masing-masing
+          sehingga dashboard hanya menampilkan
+          data akun tersebut.
+        </p>
+
+      </details>
+
+
+      <details>
+
+        <summary>
+          Apakah pendaftaran berbayar?
+        </summary>
+
+        <p>
+          Pendaftaran akun Mitra tidak dikenakan
+          biaya pendaftaran.
+        </p>
+
+      </details>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer class="footer">
+
+  <div class="container footer-grid">
+
+
+    <div>
+
+      <h3>
+        Probolinggo Rafting
+      </h3>
+
+      <p>
+        Arusnya Menggoda,
+        Petualangannya Luar Biasa!
+      </p>
+
+      <p>
+        Rafting • Family Adventure •
+        Team Building • Outbound •
+        River Camp
+      </p>
+
+    </div>
+
+
+    <div>
+
+      <h3>
+        Menu
+      </h3>
+
+      <a href="index.html">
+        Beranda
+      </a>
+
+      <a href="agent-mitra.html">
+        Program Agent & Mitra
+      </a>
+
+      <a href="mitra-daftar.html">
+        Daftar Mitra
+      </a>
+
+      <a href="mitra-login.html">
+        Login Mitra
+      </a>
+
+    </div>
+
+
+    <div>
+
+      <h3>
+        Hubungi Kami
+      </h3>
+
+      <a
+        href="https://wa.me/6282322496393"
+        target="_blank"
+        rel="noopener"
+      >
+        WhatsApp
+      </a>
+
+      <a href="mailto:elshanumprobolinggorafting@gmail.com">
+        Email
+      </a>
+
+      <p>
+        07.00–16.00 WIB<br>
+        Probolinggo, Jawa Timur
+      </p>
+
+    </div>
+
+
+  </div>
+
+
+  <div class="container copyright">
+
+    © 2026 Probolinggo Rafting.
+    Semua hak dilindungi.
+
+  </div>
+
+</footer>
+
+
+<script>
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+  "https://ecyfvwzoazvhwkpevriy.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_ahlAi_-PJh7e8hNxGhn7_g_wBmKU8I4";
+
+const { createClient } = supabase;
+
+const db = createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+
+/* =========================================
+   ELEMENT
+========================================= */
+
+const form =
+  document.getElementById("mitraForm");
+
+const submitBtn =
+  document.getElementById("submitBtn");
+
+const notice =
+  document.getElementById("notice");
+
+
+/* =========================================
+   NOTICE
+========================================= */
+
+function showNotice(type, html){
+
+  notice.className =
+    "notice " + type;
+
+  notice.innerHTML = html;
+
+}
+
+
+/* =========================================
+   SUBMIT
+========================================= */
+
+form.addEventListener(
+  "submit",
+  async function(e){
+
+    e.preventDefault();
+
+
+    notice.className = "notice";
+    notice.innerHTML = "";
+
+
+    const nama =
+      document
+        .getElementById("nama_lengkap")
+        .value
+        .trim();
+
+    const email =
+      document
+        .getElementById("email")
+        .value
+        .trim()
+        .toLowerCase();
+
+    const whatsapp =
+      document
+        .getElementById("no_whatsapp")
+        .value
+        .trim();
+
+    const domisili =
+      document
+        .getElementById("domisili")
+        .value
+        .trim();
+
+    const password =
+      document
+        .getElementById("password")
+        .value;
+
+    const passwordConfirm =
+      document
+        .getElementById("password_confirm")
+        .value;
+
+
+    /* ===============================
+       VALIDASI
+    =============================== */
+
+    if(password.length < 8){
+
+      showNotice(
+        "error",
+        "<strong>Password terlalu pendek.</strong><br>" +
+        "Password harus minimal 8 karakter."
+      );
+
+      return;
+    }
+
+
+    if(password !== passwordConfirm){
+
+      showNotice(
+        "error",
+        "<strong>Password tidak sama.</strong><br>" +
+        "Pastikan kedua password sama."
+      );
+
+      return;
+    }
+
+
+    submitBtn.disabled = true;
+
+    submitBtn.textContent =
+      "Membuat akun...";
+
+
+    try{
+
+
+      /* ===============================
+         BUAT AKUN SUPABASE AUTH
+      =============================== */
+
+      const {
+        data,
+        error
+      } = await db.auth.signUp({
+
+        email:email,
+
+        password:password,
+
+        options:{
+
+          data:{
+
+            nama_lengkap:nama,
+
+            no_whatsapp:whatsapp,
+
+            domisili:domisili,
+
+            tipe:"Mitra"
+
+          },
+
+          emailRedirectTo:
+            window.location.origin +
+            "/mitra-login.html"
+
+        }
+
+      });
+
+
+      if(error){
+
+        throw error;
+
+      }
+
+
+      if(!data.user){
+
+        throw new Error(
+          "Akun tidak berhasil dibuat."
+        );
+
+      }
+
+
+      /* ===============================
+         BERHASIL
+      =============================== */
+
+      showNotice(
+
+        "success",
+
+        "<strong>Pendaftaran berhasil!</strong><br><br>" +
+
+        "Akun Mitra sudah dibuat untuk " +
+
+        "<strong>" +
+        email +
+        "</strong>." +
+
+        "<br><br>" +
+
+        "Silakan buka email Anda dan " +
+
+        "<strong>konfirmasi akun</strong> " +
+
+        "sebelum melakukan login." +
+
+        "<br><br>" +
+
+        "Setelah email dikonfirmasi, Anda dapat " +
+
+        "<a href='mitra-login.html' " +
+
+        "style='color:#0b6b45;font-weight:800'>" +
+
+        "Login sebagai Mitra →" +
+
+        "</a>"
+
+      );
+
+
+      form.reset();
+
+
+    }catch(error){
+
+      console.error(
+        "Pendaftaran Mitra:",
+        error
+      );
+
+
+      let message =
+        "Silakan coba lagi.";
+
+
+      const errorText =
+        String(
+          error.message || ""
+        ).toLowerCase();
+
+
+      if(
+        errorText.includes(
+          "already registered"
+        )
+      ){
+
+        message =
+          "Email tersebut sudah terdaftar. " +
+          "Silakan gunakan email lain.";
+
+      }
+
+      else if(
+        errorText.includes(
+          "password"
+        )
+      ){
+
+        message =
+          "Password tidak memenuhi ketentuan.";
+
+      }
+
+      else if(
+        error.message
+      ){
+
+        message =
+          error.message;
+
+      }
+
+
+      showNotice(
+
+        "error",
+
+        "<strong>Pendaftaran belum berhasil.</strong><br>" +
+        message
+
+      );
+
+
+    }finally{
+
+      submitBtn.disabled = false;
+
+      submitBtn.textContent =
+        "Daftar Sebagai Mitra";
+
+    }
+
+  }
+);
+
+</script>
+
+
+</body>
+
+</html>
