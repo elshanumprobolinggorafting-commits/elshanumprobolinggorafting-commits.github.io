@@ -1408,11 +1408,11 @@ if(mitraError){
   );
 
   throw new Error(
-    "Akun berhasil dibuat, tetapi data Mitra belum berhasil disimpan. Silakan hubungi admin."
+    "Gagal menyimpan data Mitra: " +
+    (mitraError.message || "Kesalahan tidak diketahui")
   );
 
 }
-
       /* ===============================
          BERHASIL
       =============================== */
