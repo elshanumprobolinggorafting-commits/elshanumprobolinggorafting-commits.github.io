@@ -1382,7 +1382,36 @@ form.addEventListener(
         );
 
       }
+/* ===============================
+   SIMPAN DATA KE TABEL AGEN MITRA
+=============================== */
 
+const { error: mitraError } = await db
+  .from("Agen Mitra")
+  .insert([
+    {
+      nama_lengkap: nama,
+      email: email,
+      no_whatsapp: whatsapp,
+      domisili: domisili,
+      status: "menunggu",
+      type: "Mitra",
+      user_id: data.user.id
+    }
+  ]);
+
+if(mitraError){
+
+  console.error(
+    "Gagal menyimpan data Agen Mitra:",
+    mitraError
+  );
+
+  throw new Error(
+    "Akun berhasil dibuat, tetapi data Mitra belum berhasil disimpan. Silakan hubungi admin."
+  );
+
+}
 
       /* ===============================
          BERHASIL
